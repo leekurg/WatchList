@@ -15,12 +15,13 @@ struct VideoItem {
     let file: String
 }
 
-class TableViewCell: UITableViewCell {
+class TableViewCell: UITableViewCell {    
     private let screenView: UIImageView!
     private let titleLabel: UILabel!
     private let descLabel: UILabel!
-    private let buttonPlay: UIButton!
+    let buttonPlay: UIButton!
     
+    var delegate: ViewControllerCellDelegate?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         
@@ -52,14 +53,16 @@ class TableViewCell: UITableViewCell {
             let button = UIButton()
             button.layer.cornerRadius = 25
             button.setImage( UIImage(named: "play"), for: .normal)
-            button.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+            button.setImage( UIImage(named: "play"), for: .highlighted)
             button.layer.shadowColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1).cgColor
             button.layer.shadowRadius = 15.0
             button.layer.shadowOpacity = 0.9
+            
             return button
         }()
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.isUserInteractionEnabled = true
         backgroundColor = .darkGray
         
         addSubview(screenView)
@@ -95,16 +98,25 @@ class TableViewCell: UITableViewCell {
     }
     
     @objc private func playDidTouched() {
-        UIView.transition(with: buttonPlay, duration: 0.5, options: .transitionCrossDissolve) {
-            self.buttonPlay.layer.shadowRadius = 30
-        }
+        buttonPlay.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+        delegate?.didPressButton(buttonPlay.tag)
+        
+        UIView.animate(withDuration: 1.0,
+                       delay: 0,
+                       usingSpringWithDamping: CGFloat(10.0),
+                       initialSpringVelocity: CGFloat(4.0),
+                       options: UIView.AnimationOptions.allowUserInteraction,
+                       animations: {
+                        self.buttonPlay.transform = CGAffineTransform.identity
+                        },
+                       completion: { Void in()  }
+        )
     }
     
     func setup( data: VideoItem ) {
         screenView.image = UIImage(named: data.screen)
         titleLabel.text = data.title
         descLabel.text = data.desc
-        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09154C2E2843931D00141E61 /* interstellar.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 09154C2A284391FC00141E61 /* interstellar.mp4 */; };
+		09154C2F2843931D00141E61 /* trainspotting.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 09154C2B284391FC00141E61 /* trainspotting.mp4 */; };
+		09154C302843931D00141E61 /* matrix.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 09154C2C284391FC00141E61 /* matrix.mp4 */; };
 		09793925284176CE007BFC85 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09793924284176CE007BFC85 /* AppDelegate.swift */; };
 		09793927284176CE007BFC85 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09793926284176CE007BFC85 /* SceneDelegate.swift */; };
 		09793929284176CE007BFC85 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09793928284176CE007BFC85 /* ViewController.swift */; };
@@ -18,6 +21,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		09154C29284391FC00141E61 /* zone.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = zone.mp4; sourceTree = "<group>"; };
+		09154C2A284391FC00141E61 /* interstellar.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = interstellar.mp4; sourceTree = "<group>"; };
+		09154C2B284391FC00141E61 /* trainspotting.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = trainspotting.mp4; sourceTree = "<group>"; };
+		09154C2C284391FC00141E61 /* matrix.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = matrix.mp4; sourceTree = "<group>"; };
 		09793921284176CE007BFC85 /* VideoPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		09793924284176CE007BFC85 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		09793926284176CE007BFC85 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -44,9 +51,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09154C28284391FC00141E61 /* content */ = {
+			isa = PBXGroup;
+			children = (
+				09154C29284391FC00141E61 /* zone.mp4 */,
+				09154C2A284391FC00141E61 /* interstellar.mp4 */,
+				09154C2B284391FC00141E61 /* trainspotting.mp4 */,
+				09154C2C284391FC00141E61 /* matrix.mp4 */,
+			);
+			path = content;
+			sourceTree = "<group>";
+		};
 		09793918284176CE007BFC85 = {
 			isa = PBXGroup;
 			children = (
+				09154C28284391FC00141E61 /* content */,
 				09793923284176CE007BFC85 /* VideoPlayer */,
 				09793922284176CE007BFC85 /* Products */,
 				BAAAECADED32CFBEA777B0BB /* Pods */,
@@ -162,6 +181,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09154C2E2843931D00141E61 /* interstellar.mp4 in Resources */,
+				09154C2F2843931D00141E61 /* trainspotting.mp4 in Resources */,
+				09154C302843931D00141E61 /* matrix.mp4 in Resources */,
 				09793931284176CF007BFC85 /* LaunchScreen.storyboard in Resources */,
 				0979392E284176CF007BFC85 /* Assets.xcassets in Resources */,
 				0979392C284176CE007BFC85 /* Main.storyboard in Resources */,

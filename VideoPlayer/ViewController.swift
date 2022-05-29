@@ -7,11 +7,13 @@
 
 import UIKit
 import SnapKit
+import AVKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDelegate {
 
     private var dataSource: [VideoItem] = []
     private var tableViewVideos: UITableView!
+    private var playViewController = AVPlayerViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,10 +27,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     private func setupUI() {
         navigationItem.title = "Watch List"
         navigationController?.navigationBar.prefersLargeTitles = true
-        
-//        navigationController?.navigationBar.barTintColor = UIColor(red: 120/255, green: 118/255, blue: 99/255, alpha: 1)
-//        navigationController?.navigationBar.backgroundColor = UIColor(red: 120/255, green: 118/255, blue: 99/255, alpha: 1)
-        
+
         tableViewVideos = UITableView()
         view.addSubview(tableViewVideos)
         tableViewVideos.snp.makeConstraints { make in
@@ -53,7 +52,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 }
 
 //MARK: - Data Source Protocol
-extension ViewController {
+extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch tableView {
         case self.tableViewVideos:
@@ -70,13 +69,13 @@ extension ViewController {
             let cell = tableViewVideos.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
             cell.setup(data: dataSource[indexPath.row])
             
+            cell.delegate = self
+            cell.buttonPlay?.tag = indexPath.row
+            
             return cell
         default:
-            // Fetch a cell of the appropriate type.
             let cell = tableView.dequeueReusableCell(withIdentifier: "cellTypeIdentifier", for: indexPath)
-            
-            // Configure the cell’s contents.
-            cell.textLabel!.text = "Cell text"
+            cell.textLabel!.text = "Undefined cell text"
             return cell
         }
         
@@ -89,20 +88,33 @@ extension ViewController {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
-    
-//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
-//        var selectedCell = tableView.cellForRow(at: indexPath) as! TableViewCell
-////        selectedCell.contentView.backgroundColor = UIColor.redColor()
-//        selectedCell.sc
-//    }
-//
-//    // if tableView is set in attribute inspector with selection to multiple Selection it should work.
-//
-//    // Just set it back in deselect
-//
-//    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-//        var cellToDeSelect:UITableViewCell = tableView.cellForRowAtIndexPath(indexPath)!
-//        cellToDeSelect.contentView.backgroundColor = colorForCellUnselected
-//    }
 }
 
+
+//MARK: - Cell Delegate
+protocol ViewControllerCellDelegate : AnyObject {
+    func didPressButton(_ tag: Int)
+}
+
+//MARK: - Video Playing
+extension ViewController: ViewControllerCellDelegate {
+    func didPressButton(_ tag: Int) {
+        if tag < 0 || tag >= dataSource.count { return }
+
+        let nametype = dataSource[tag].file.split(separator: ".")
+        
+        guard let path = Bundle.main.path(forResource: String(nametype[0]), ofType: String(nametype[1])) else {
+            let alert = UIAlertController(title: "", message: "❗️Video \"\(dataSource[tag].file)\" not found", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true)
+            
+                    return
+                }
+        
+        playViewController.player = AVPlayer(url: URL(fileURLWithPath: path))
+        
+        self.present(playViewController, animated: true) {
+            self.playViewController.player?.play()
+        }
+    }
+}
